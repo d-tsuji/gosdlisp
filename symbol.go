@@ -29,6 +29,12 @@ func NewSymbol(name string) *Symbol {
 	return symbol
 }
 
+func AddSymbolFunc(name string, f Function) {
+	s := NewSymbol(name)
+	s.function = f
+	symbolTable[name] = s
+}
+
 func (s *Symbol) String() string {
 	return s.name
 }
