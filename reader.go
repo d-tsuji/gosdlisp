@@ -168,8 +168,18 @@ func (r *Reader) makeList() T {
 
 // makeQuote reads the quote.
 func (r *Reader) makeQuote() T {
-	// TODO
-	return nil
+	top := NewCons(nil, nil)
+	list := top
+	list.car = NewSymbol("QUOTE")
+	list.cdr = NewCons(nil, nil)
+	l, ok := list.cdr.(Cons)
+	if !ok {
+		log.Fatalf("cannot convert Cons: %v", list.cdr)
+	}
+	list.cdr = l
+	r.getRune()
+	list.car = r.getSexp()
+	return top
 }
 
 // SkipSpace skips whitespace.
