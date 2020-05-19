@@ -8,7 +8,7 @@ type Cons struct {
 }
 
 func NewCons(car, cdr T) *Cons {
-	return &Cons{}
+	return &Cons{car, cdr}
 }
 
 func (c *Cons) String() string {
