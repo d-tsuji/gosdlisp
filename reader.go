@@ -50,10 +50,16 @@ func (r *Reader) getSexp() T {
 		r.skipSpace()
 		switch r.ru {
 		case '(':
+			return r.makeList()
+		case '\'':
+			return r.makeQuote()
+		case '-':
+			return r.makeMinusNumber()
 		default:
 			if unicode.IsDigit(r.ru) {
-
+				return r.makeNumber()
 			}
+			return r.makeSymbol()
 		}
 	}
 }
