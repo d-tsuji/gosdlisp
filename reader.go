@@ -2,8 +2,8 @@ package gosdlisp
 
 import (
 	"bufio"
+	"io"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 	"unicode"
@@ -17,13 +17,13 @@ type Reader struct {
 	br          *bufio.Reader
 }
 
-func NewReader() *Reader {
+func NewReader(in io.Reader) *Reader {
 	return &Reader{
 		ru:          0,
 		line:        nil,
 		indexOfLine: 0,
 		lineLength:  -1,
-		br:          bufio.NewReader(os.Stdin),
+		br:          bufio.NewReader(in),
 	}
 }
 
