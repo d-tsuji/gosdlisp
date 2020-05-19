@@ -11,7 +11,7 @@ func NewCons(car, cdr T) *Cons {
 	return &Cons{car, cdr}
 }
 
-func (c *Cons) String() string {
+func (c Cons) String() string {
 	var str strings.Builder
 	str.WriteString("(")
 
