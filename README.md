@@ -14,6 +14,11 @@ Mini lisp interpreter written in Go. It is implemented with reference to the [d-
 ```
 
 ```lisp
+> (cons 1 '(2 3))
+(1 2 3)
+```
+
+```lisp
 > (defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))
 FACT
 > (fact 10)

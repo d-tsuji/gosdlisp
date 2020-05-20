@@ -177,7 +177,7 @@ func (r *Reader) makeQuote() T {
 	if !ok {
 		log.Fatalf("cannot convert Cons: %v", list.Cdr)
 	}
-	list.Cdr = l
+	list = l
 	r.getRune()
 	list.Car = r.getSexp()
 	return top

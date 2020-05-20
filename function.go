@@ -23,6 +23,7 @@ func registSystemFunctions() {
 	AddSymbolFunc(">", &Gt{})
 	AddSymbolFunc("<", &Lt{})
 	AddSymbolFunc("=", &NumberEqual{})
+	AddSymbolFunc("QUOTE", &Quote{})
 	AddSymbolFunc("DEFUN", &Defun{})
 	AddSymbolFunc("IF", &If{})
 }
@@ -60,7 +61,10 @@ func (c FunCons) String() string {
 }
 
 func (c *FunCons) funCall(arguments List) T {
-	return nil
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
+	return NewCons(arg1, arg2)
 }
 
 type Eq struct{}
@@ -208,6 +212,18 @@ func (n *NumberEqual) funCall(arguments List) T {
 	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
 	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
 	return arg1.(*Integer).numberEqual(arg2.(*Integer))
+}
+
+type Quote struct{}
+
+func (*Quote) A() {}
+
+func (Quote) String() string {
+	return "#<SYSTEM-FUNCTION Quote>"
+}
+
+func (*Quote) funCall(arguments List) T {
+	return arguments.(*Cons).Car
 }
 
 type Defun struct{}

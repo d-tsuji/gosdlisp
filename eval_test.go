@@ -23,6 +23,9 @@ func TestEval_Evaluate(t *testing.T) {
 		{"if", `(< 2 2)`, nil},
 		{"if", `(>= 2 2)`, NewSymbol("T")},
 		{"if", `(<= 2 2)`, NewSymbol("T")},
+		{"quote", `(cons 1 '(2 3))`, &Cons{
+			&Integer{1}, &Cons{&Integer{2}, &Cons{&Integer{3}, nil}},
+		}},
 		{"defun", `(defun fact (n) (1))`, &Symbol{
 			"FACT", nil, &Cons{
 				Car: &Symbol{"LAMBDA", nil, nil},
