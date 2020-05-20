@@ -7,7 +7,8 @@ func init() {
 
 	// Initialization of Symbol T
 	symbolT := &Symbol{Name: "T"}
-	symbolT.Value = symbolT
+	// TODO: require check symbolT.Value
+	//symbolT.Value = symbolT
 	symbolTable["T"] = symbolT
 
 	// Initialization of Symbol QUIT

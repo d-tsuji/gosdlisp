@@ -19,6 +19,7 @@ func NewEval() *Eval {
 }
 
 func (e Eval) Evaluate(form T) T {
+	// Evaluation of Symbols
 	f, ok := form.(*Symbol)
 	if ok {
 		symbolValue := f.Value
@@ -28,12 +29,15 @@ func (e Eval) Evaluate(form T) T {
 		return symbolValue
 	}
 
+	// Evaluating when Atom is not a symbol
 	if form == nil {
 		return form
 	}
 	if _, ok := form.(Atom); ok {
 		return form
 	}
+
+	// Evaluation of a list (evaluation of a function)
 	car := (form.(*Cons)).Car
 	_, ok = car.(*Symbol)
 	if !ok {
@@ -98,7 +102,7 @@ func (e Eval) bindEvalBody(lambda, body, form *Cons) T {
 	argList = lambda
 	e.stackP = oldStackP
 	for {
-		sym := (argList.Cdr).(*Symbol)
+		sym := (argList.Car).(*Symbol)
 		sym.Value = e.stack[oldStackP]
 		oldStackP++
 		if argList.Cdr == nil {

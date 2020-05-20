@@ -240,7 +240,7 @@ func (i *If) funCall(arguments List) T {
 	args := (arguments.(*Cons)).Cdr
 	arg2 := (args.(*Cons)).Car
 	var arg3 T
-	if (args.(*Cons)).Car != nil {
+	if (args.(*Cons)).Cdr != nil {
 		arg3 = (((args.(*Cons)).Cdr).(*Cons)).Car
 	}
 	e := NewEval()
