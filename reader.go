@@ -126,9 +126,6 @@ func (r *Reader) makeSymbolInternal(str strings.Builder) T {
 
 	symStr := "" + str.String()
 
-	if symStr == "NIL" {
-		return Null{}
-	}
 	return NewSymbol(symStr)
 }
 
@@ -138,15 +135,15 @@ func (r *Reader) makeList() T {
 	r.skipSpace()
 	if r.ru == ')' {
 		r.getRune()
-		return &Null{}
+		return nil
 	}
-	top := NewCons(&Null{}, &Null{})
+	top := NewCons(nil, nil)
 	list := top
 	for {
 		list.car = r.getSexp()
 		r.skipSpace()
 		if r.indexOfLine > r.lineLength {
-			return &Null{}
+			return nil
 		}
 		if r.ru == ')' {
 			break
@@ -158,12 +155,12 @@ func (r *Reader) makeList() T {
 			r.getRune()
 			return top
 		}
-		list.cdr = NewCons(&Null{}, &Null{})
-		l, ok := list.cdr.(Cons)
+		list.cdr = NewCons(nil, nil)
+		l, ok := list.cdr.(*Cons)
 		if !ok {
 			log.Fatalf("cannot convert Cons: %v", list.cdr)
 		}
-		list.cdr = l
+		list = l
 	}
 	r.getRune()
 	return top
@@ -175,7 +172,7 @@ func (r *Reader) makeQuote() T {
 	list := top
 	list.car = NewSymbol("QUOTE")
 	list.cdr = NewCons(nil, nil)
-	l, ok := list.cdr.(Cons)
+	l, ok := list.cdr.(*Cons)
 	if !ok {
 		log.Fatalf("cannot convert Cons: %v", list.cdr)
 	}

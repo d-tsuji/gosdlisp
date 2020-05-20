@@ -1,35 +1,42 @@
 package gosdlisp
 
-import "strings"
+import (
+	"log"
+	"strings"
+)
 
 type Cons struct {
 	car T
 	cdr T
 }
 
-func NewCons(car, cdr T) Cons {
-	return Cons{car, cdr}
+func NewCons(car, cdr T) *Cons {
+	return &Cons{car, cdr}
 }
 
 func (c Cons) String() string {
 	var str strings.Builder
 	str.WriteString("(")
 
-	next := c.cdr
+	list := &c
 
 	for {
-		str.WriteString(c.car.String())
-		if next == nil {
+		str.WriteString(list.car.String())
+		if list.cdr == nil {
 			str.WriteString(")")
 			break
-		} else if a, ok := next.(Atom); ok {
+		} else if a, ok := list.cdr.(Atom); ok {
 			str.WriteString(" . ")
 			str.WriteString(a.String())
 			str.WriteString(")")
 			break
 		} else {
 			str.WriteString(" ")
-			next = c.cdr
+			l, ok := list.cdr.(*Cons)
+			if !ok {
+				log.Fatalf("cannot convert Cons: %v", list.cdr)
+			}
+			list = l
 		}
 	}
 
