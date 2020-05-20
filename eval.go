@@ -51,7 +51,7 @@ func (e Eval) Evaluate(form T) T {
 	case Function:
 		argumentList := (form.(*Cons)).Cdr
 		return fun.(Function).funCall(argumentList.(List))
-	case Cons:
+	case *Cons:
 		cdr := ((fun.(*Cons)).Cdr).(*Cons)
 		lambdaList := cdr.Car
 		body := (cdr.Cdr).(*Cons)
@@ -60,7 +60,7 @@ func (e Eval) Evaluate(form T) T {
 		}
 		return e.bindEvalBody(lambdaList.(*Cons), body, ((form.(*Cons)).Cdr).(*Cons))
 	default:
-		log.Fatalf("Not a Function: %v", fun)
+		log.Fatalf("Not a Function: %v, type: %T", fun, fun)
 	}
 	return nil
 }
@@ -84,7 +84,7 @@ func (e Eval) bindEvalBody(lambda, body, form *Cons) T {
 	argList := lambda
 	sp := oldStackP
 	for {
-		sym := (argList.Cdr).(*Symbol)
+		sym := (argList.Car).(*Symbol)
 		swap := sym.Value
 		sym.Value = e.stack[sp]
 		e.stack[sp] = swap
