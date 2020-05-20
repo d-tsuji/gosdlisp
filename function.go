@@ -16,6 +16,8 @@ func registSystemFunctions() {
 	AddSymbolFunc("EQ", &Eq{})
 	AddSymbolFunc("+", &Add{})
 	AddSymbolFunc("-", &Sub{})
+	AddSymbolFunc("*", &Mul{})
+	AddSymbolFunc("/", &Div{})
 }
 
 type Car struct{}
@@ -94,4 +96,34 @@ func (c *Sub) funCall(arguments List) T {
 	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
 	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
 	return arg1.(*Integer).sub(arg2.(*Integer))
+}
+
+type Mul struct{}
+
+func (m *Mul) A() {}
+
+func (m Mul) String() string {
+	return "#<SYSTEM-FUNCTION Mul>"
+}
+
+func (m *Mul) funCall(arguments List) T {
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
+	return arg1.(*Integer).mul(arg2.(*Integer))
+}
+
+type Div struct{}
+
+func (d *Div) A() {}
+
+func (d Div) String() string {
+	return "#<SYSTEM-FUNCTION Div>"
+}
+
+func (d *Div) funCall(arguments List) T {
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
+	return arg1.(*Integer).div(arg2.(*Integer))
 }
