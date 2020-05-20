@@ -48,11 +48,16 @@ func (e Eval) Evaluate(form T) T {
 		argumentList := (form.(*Cons)).Cdr
 		return fun.(Function).funCall(argumentList.(List))
 	case Cons:
-		// TODO
+		cdr := ((fun.(*Cons)).Cdr).(*Cons)
+		lambdaList := cdr.Car
+		body := (cdr.Cdr).(*Cons)
+		if lambdaList == nil {
+			return e.evalBody(body)
+		}
+		return e.bindEvalBody(lambdaList.(*Cons), body, ((form.(*Cons)).Cdr).(*Cons))
 	default:
 		log.Fatalf("Not a Function: %v", fun)
 	}
-	// TODO: will be deleted.
 	return nil
 }
 
