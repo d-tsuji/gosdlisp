@@ -23,7 +23,7 @@ func (e Eval) Evaluate(form T) T {
 	if ok {
 		symbolValue := f.Value
 		if symbolValue == nil {
-			log.Fatalf("Unbound Variable Error: %v", symbolValue)
+			log.Fatalf("Unbound Variable Error: %v", form)
 		}
 		return symbolValue
 	}
@@ -34,7 +34,7 @@ func (e Eval) Evaluate(form T) T {
 	if _, ok := form.(Atom); ok {
 		return form
 	}
-	car := form.(*Cons).Car
+	car := (form.(*Cons)).Car
 	_, ok = car.(*Symbol)
 	if !ok {
 		log.Fatalf("Not a Symbol: %v", car)

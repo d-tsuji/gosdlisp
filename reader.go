@@ -83,7 +83,7 @@ func (r *Reader) makeNumber() T {
 		}
 		if !unicode.IsDigit(r.ru) {
 			r.indexOfLine--
-			return r.makeSymbolInternal(str)
+			return r.makeSymbolInternal(str.String())
 		}
 		str.WriteRune(r.ru)
 	}
@@ -100,7 +100,7 @@ func (r *Reader) makeMinusNumber() T {
 	if !unicode.IsDigit(nru) {
 		var str strings.Builder
 		str.WriteRune(r.ru)
-		return r.makeSymbolInternal(str)
+		return r.makeSymbolInternal(str.String())
 	}
 	return r.makeNumber()
 }
@@ -110,11 +110,11 @@ func (r *Reader) makeSymbol() T {
 	r.ru = unicode.ToUpper(r.ru)
 	var str strings.Builder
 	str.WriteRune(r.ru)
-	return r.makeSymbolInternal(str)
+	return r.makeSymbolInternal(str.String())
 }
 
 // makeSymbolInternal reads a symbol in the middle of a string.
-func (r *Reader) makeSymbolInternal(str strings.Builder) T {
+func (r *Reader) makeSymbolInternal(str string) T {
 	for r.indexOfLine < r.lineLength {
 		r.getRune()
 		if r.ru == '(' || r.ru == ')' {
@@ -124,12 +124,10 @@ func (r *Reader) makeSymbolInternal(str strings.Builder) T {
 			break
 		}
 		r.ru = unicode.ToUpper(r.ru)
-		str.WriteRune(r.ru)
+		str += string(r.ru)
 	}
 
-	symStr := str.String()
-
-	return NewSymbol(symStr)
+	return NewSymbol(str)
 }
 
 // makeList reads the list.

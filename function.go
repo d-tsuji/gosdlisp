@@ -133,14 +133,13 @@ type Defun struct{}
 
 func (d *Defun) A() {}
 
-func (d Defun) String() string {
+func (d *Defun) String() string {
 	return "#<SYSTEM-FUNCTION Defun>"
 }
 
 func (d *Defun) funCall(arguments List) T {
-	eval := NewEval()
-	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
-	args := eval.Evaluate((arguments.(*Cons)).Cdr)
+	arg1 := (arguments.(*Cons)).Car
+	args := (arguments.(*Cons)).Cdr
 	fun := arg1.(*Symbol)
 	lambda := NewCons(NewSymbol("LAMBDA"), args)
 	fun.Function = lambda
