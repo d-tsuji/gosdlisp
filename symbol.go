@@ -6,12 +6,12 @@ func init() {
 	symbolTable = make(map[string]*Symbol)
 
 	// Initialization of Symbol T
-	symbolT := &Symbol{name: "T"}
-	symbolT.value = symbolT
+	symbolT := &Symbol{Name: "T"}
+	symbolT.Value = symbolT
 	symbolTable["T"] = symbolT
 
 	// Initialization of Symbol QUIT
-	symbolQuit := &Symbol{name: "QUIT"}
+	symbolQuit := &Symbol{Name: "QUIT"}
 	symbolTable["QUIT"] = symbolQuit
 
 	// Initialization of system functions
@@ -19,27 +19,27 @@ func init() {
 }
 
 type Symbol struct {
-	name     string
-	value    T
-	function T
+	Name     string
+	Value    T
+	Function T
 }
 
 func NewSymbol(name string) *Symbol {
 	_, exists := symbolTable[name]
 	if !exists {
-		symbolTable[name] = &Symbol{name: name}
+		symbolTable[name] = &Symbol{Name: name}
 	}
 	return symbolTable[name]
 }
 
 func AddSymbolFunc(name string, f Function) {
 	s := NewSymbol(name)
-	s.function = f
+	s.Function = f
 	symbolTable[name] = s
 }
 
 func (s Symbol) String() string {
-	return s.name
+	return s.Name
 }
 
 func (s Symbol) A() {}

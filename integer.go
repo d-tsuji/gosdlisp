@@ -3,33 +3,33 @@ package gosdlisp
 import "strconv"
 
 type Integer struct {
-	value int
+	Value int
 }
 
 func (i *Integer) A() {}
 
 func NewInteger(value int) *Integer {
-	return &Integer{value: value}
+	return &Integer{Value: value}
 }
 
 func (i *Integer) String() string {
-	return strconv.Itoa(i.value)
+	return strconv.Itoa(i.Value)
 }
 
 func (i *Integer) add(arg2 Integer) T {
-	return &Integer{value: i.value + arg2.value}
+	return &Integer{Value: i.Value + arg2.Value}
 }
 
 func (i *Integer) sub(arg2 Integer) T {
-	return &Integer{value: i.value - arg2.value}
+	return &Integer{Value: i.Value - arg2.Value}
 }
 
 func (i *Integer) mul(arg2 Integer) T {
-	return &Integer{value: i.value * arg2.value}
+	return &Integer{Value: i.Value * arg2.Value}
 }
 
 func (i *Integer) div(arg2 Integer) T {
-	return &Integer{value: i.value / arg2.value}
+	return &Integer{Value: i.Value / arg2.Value}
 }
 
 func (i *Integer) ge(arg2 Integer) T {

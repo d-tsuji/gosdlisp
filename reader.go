@@ -140,7 +140,7 @@ func (r *Reader) makeList() T {
 	top := NewCons(nil, nil)
 	list := top
 	for {
-		list.car = r.getSexp()
+		list.Car = r.getSexp()
 		r.skipSpace()
 		if r.indexOfLine > r.lineLength {
 			return nil
@@ -150,15 +150,15 @@ func (r *Reader) makeList() T {
 		}
 		if r.ru == '.' {
 			r.getRune()
-			list.cdr = r.getSexp()
+			list.Cdr = r.getSexp()
 			r.skipSpace()
 			r.getRune()
 			return top
 		}
-		list.cdr = NewCons(nil, nil)
-		l, ok := list.cdr.(*Cons)
+		list.Cdr = NewCons(nil, nil)
+		l, ok := list.Cdr.(*Cons)
 		if !ok {
-			log.Fatalf("cannot convert Cons: %v", list.cdr)
+			log.Fatalf("cannot convert Cons: %v", list.Cdr)
 		}
 		list = l
 	}
@@ -170,15 +170,15 @@ func (r *Reader) makeList() T {
 func (r *Reader) makeQuote() T {
 	top := NewCons(nil, nil)
 	list := top
-	list.car = NewSymbol("QUOTE")
-	list.cdr = NewCons(nil, nil)
-	l, ok := list.cdr.(*Cons)
+	list.Car = NewSymbol("QUOTE")
+	list.Cdr = NewCons(nil, nil)
+	l, ok := list.Cdr.(*Cons)
 	if !ok {
-		log.Fatalf("cannot convert Cons: %v", list.cdr)
+		log.Fatalf("cannot convert Cons: %v", list.Cdr)
 	}
-	list.cdr = l
+	list.Cdr = l
 	r.getRune()
-	list.car = r.getSexp()
+	list.Car = r.getSexp()
 	return top
 }
 

@@ -13,7 +13,26 @@ func TestReader_read(t *testing.T) {
 		input string
 		want  T
 	}{
-		{name: "", input: `(+ 1 2)`, want: nil},
+		{name: "", input: `(+ 1 2)`, want: &Cons{
+			Car: Symbol{
+				Name:     "+",
+				Value:    nil,
+				Function: &Add{},
+			},
+			Cdr: &Cons{
+				Car: Symbol{
+					Name:     "1",
+					Value:    nil,
+					Function: nil,
+				},
+				Cdr: &Cons{
+					Car: &Integer{
+						Value: 2,
+					},
+					Cdr: nil,
+				},
+			},
+		}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

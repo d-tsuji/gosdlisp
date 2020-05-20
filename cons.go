@@ -6,8 +6,8 @@ import (
 )
 
 type Cons struct {
-	car T
-	cdr T
+	Car T
+	Cdr T
 }
 
 func NewCons(car, cdr T) *Cons {
@@ -21,20 +21,20 @@ func (c Cons) String() string {
 	list := &c
 
 	for {
-		str.WriteString(list.car.String())
-		if list.cdr == nil {
+		str.WriteString(list.Car.String())
+		if list.Cdr == nil {
 			str.WriteString(")")
 			break
-		} else if a, ok := list.cdr.(Atom); ok {
+		} else if a, ok := list.Cdr.(Atom); ok {
 			str.WriteString(" . ")
 			str.WriteString(a.String())
 			str.WriteString(")")
 			break
 		} else {
 			str.WriteString(" ")
-			l, ok := list.cdr.(*Cons)
+			l, ok := list.Cdr.(*Cons)
 			if !ok {
-				log.Fatalf("cannot convert Cons: %v", list.cdr)
+				log.Fatalf("cannot convert Cons: %v", list.Cdr)
 			}
 			list = l
 		}
