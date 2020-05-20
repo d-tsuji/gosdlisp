@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
+	"unicode/utf8"
 )
 
 type Reader struct {
@@ -33,7 +34,9 @@ func (r *Reader) read() T {
 	if err != nil {
 		log.Fatalf("cannot read line: %v", err)
 	}
+	r.lineLength = utf8.RuneCountInString(string(line))
 	r.line = []rune(string(line) + `\0`)
+	r.getRune()
 	return r.getSexp()
 }
 

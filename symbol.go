@@ -13,6 +13,9 @@ func init() {
 	// Initialization of Symbol QUIT
 	symbolQuit := &Symbol{name: "QUIT"}
 	symbolTable["QUIT"] = symbolQuit
+
+	// Initialization of system functions
+	registSystemFunctions()
 }
 
 type Symbol struct {
@@ -22,11 +25,11 @@ type Symbol struct {
 }
 
 func NewSymbol(name string) *Symbol {
-	symbol, exists := symbolTable[name]
+	_, exists := symbolTable[name]
 	if !exists {
 		symbolTable[name] = &Symbol{name: name}
 	}
-	return symbol
+	return symbolTable[name]
 }
 
 func AddSymbolFunc(name string, f Function) {
