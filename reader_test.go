@@ -14,13 +14,13 @@ func TestReader_read(t *testing.T) {
 		want  T
 	}{
 		{name: "", input: `(+ 1 2)`, want: &Cons{
-			Car: Symbol{
+			Car: &Symbol{
 				Name:     "+",
 				Value:    nil,
 				Function: &Add{},
 			},
 			Cdr: &Cons{
-				Car: Symbol{
+				Car: &Symbol{
 					Name:     "1",
 					Value:    nil,
 					Function: nil,

@@ -124,7 +124,7 @@ func (r *Reader) makeSymbolInternal(str strings.Builder) T {
 		str.WriteRune(r.ru)
 	}
 
-	symStr := "" + str.String()
+	symStr := str.String()
 
 	return NewSymbol(symStr)
 }
