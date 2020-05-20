@@ -33,21 +33,36 @@ func (i *Integer) div(arg2 *Integer) T {
 }
 
 func (i *Integer) ge(arg2 *Integer) T {
-	// TODO
+	if i.Value >= arg2.Value {
+		return NewSymbol("T")
+	}
 	return nil
 }
 
 func (i *Integer) le(arg2 *Integer) T {
-	// TODO
+	if i.Value <= arg2.Value {
+		return NewSymbol("T")
+	}
 	return nil
 }
 
 func (i *Integer) gt(arg2 *Integer) T {
-	// TODO
+	if i.Value > arg2.Value {
+		return NewSymbol("T")
+	}
 	return nil
 }
 
 func (i *Integer) lt(arg2 *Integer) T {
-	// TODO
+	if i.Value < arg2.Value {
+		return NewSymbol("T")
+	}
+	return nil
+}
+
+func (i *Integer) numberEqual(arg2 *Integer) T {
+	if i.Value == arg2.Value {
+		return NewSymbol("T")
+	}
 	return nil
 }
