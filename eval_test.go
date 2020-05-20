@@ -18,30 +18,11 @@ func TestEval_Evaluate(t *testing.T) {
 		{"mul", `(* 1 2)`, &Integer{2}},
 		{"div", `(/ 10 2)`, &Integer{5}},
 		{"defun", `(defun fact (n) (1))`, &Symbol{
-			Name:  "FACT",
-			Value: nil,
-			Function: &Cons{
-				Car: &Symbol{
-					Name:     "LAMBDA",
-					Value:    nil,
-					Function: nil,
-				},
+			"FACT", nil, &Cons{
+				Car: &Symbol{"LAMBDA", nil, nil},
 				Cdr: &Cons{
-					Car: &Cons{
-						Car: &Symbol{
-							Name:     "N",
-							Value:    nil,
-							Function: nil,
-						},
-						Cdr: nil,
-					},
-					Cdr: &Cons{
-						Car: &Cons{
-							Car: &Integer{1},
-							Cdr: nil,
-						},
-						Cdr: nil,
-					},
+					&Cons{&Symbol{"N", nil, nil}, nil},
+					&Cons{&Cons{&Integer{1}, nil}, nil},
 				},
 			},
 		}},
