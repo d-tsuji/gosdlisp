@@ -15,6 +15,7 @@ func registSystemFunctions() {
 	AddSymbolFunc("CONS", &FunCons{})
 	AddSymbolFunc("EQ", &Eq{})
 	AddSymbolFunc("+", &Add{})
+	AddSymbolFunc("-", &Sub{})
 }
 
 type Car struct{}
