@@ -27,7 +27,11 @@ func (c *Car) funCall(arguments List) T {
 	return nil
 }
 
+func (c *Car) A() {}
+
 type Cdr struct{}
+
+func (c *Cdr) A() {}
 
 func (c Cdr) String() string {
 	return "#<SYSTEM-FUNCTION Cdr>"
@@ -39,6 +43,8 @@ func (c *Cdr) funCall(arguments List) T {
 
 type FunCons struct{}
 
+func (c *FunCons) A() {}
+
 func (c FunCons) String() string {
 	return "#<SYSTEM-FUNCTION FunCons>"
 }
@@ -49,6 +55,8 @@ func (c *FunCons) funCall(arguments List) T {
 
 type Eq struct{}
 
+func (c *Eq) A() {}
+
 func (c Eq) String() string {
 	return "#<SYSTEM-FUNCTION Eq>"
 }
@@ -58,6 +66,8 @@ func (c *Eq) funCall(arguments List) T {
 }
 
 type Add struct{}
+
+func (c *Add) A() {}
 
 func (c Add) String() string {
 	return "#<SYSTEM-FUNCTION Add>"

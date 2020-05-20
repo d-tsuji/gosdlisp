@@ -6,6 +6,8 @@ type Integer struct {
 	value int
 }
 
+func (i *Integer) A() {}
+
 func NewInteger(value int) *Integer {
 	return &Integer{value: value}
 }

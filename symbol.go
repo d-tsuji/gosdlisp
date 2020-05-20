@@ -41,3 +41,5 @@ func AddSymbolFunc(name string, f Function) {
 func (s Symbol) String() string {
 	return s.name
 }
+
+func (s Symbol) A() {}
