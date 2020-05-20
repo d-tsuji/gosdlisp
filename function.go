@@ -70,13 +70,13 @@ func (c *Eq) funCall(arguments List) T {
 
 type Add struct{}
 
-func (c *Add) A() {}
+func (a *Add) A() {}
 
-func (c Add) String() string {
+func (a Add) String() string {
 	return "#<SYSTEM-FUNCTION Add>"
 }
 
-func (c *Add) funCall(arguments List) T {
+func (a *Add) funCall(arguments List) T {
 	eval := NewEval()
 	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
 	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
@@ -85,13 +85,13 @@ func (c *Add) funCall(arguments List) T {
 
 type Sub struct{}
 
-func (c *Sub) A() {}
+func (s *Sub) A() {}
 
-func (c Sub) String() string {
+func (s Sub) String() string {
 	return "#<SYSTEM-FUNCTION Sub>"
 }
 
-func (c *Sub) funCall(arguments List) T {
+func (s *Sub) funCall(arguments List) T {
 	eval := NewEval()
 	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
 	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
