@@ -74,5 +74,23 @@ func (c Add) String() string {
 }
 
 func (c *Add) funCall(arguments List) T {
-	return nil
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
+	return arg1.(*Integer).add(arg2.(*Integer))
+}
+
+type Sub struct{}
+
+func (c *Sub) A() {}
+
+func (c Sub) String() string {
+	return "#<SYSTEM-FUNCTION Sub>"
+}
+
+func (c *Sub) funCall(arguments List) T {
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
+	return arg1.(*Integer).sub(arg2.(*Integer))
 }

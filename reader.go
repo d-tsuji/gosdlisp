@@ -29,7 +29,7 @@ func NewReader(in io.Reader) *Reader {
 }
 
 // read is an S-expression reader.
-func (r *Reader) read() T {
+func (r *Reader) Read() T {
 	line, _, err := r.br.ReadLine()
 	if err != nil {
 		log.Fatalf("cannot read line: %v", err)

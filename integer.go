@@ -16,38 +16,38 @@ func (i *Integer) String() string {
 	return strconv.Itoa(i.Value)
 }
 
-func (i *Integer) add(arg2 Integer) T {
+func (i *Integer) add(arg2 *Integer) T {
 	return &Integer{Value: i.Value + arg2.Value}
 }
 
-func (i *Integer) sub(arg2 Integer) T {
+func (i *Integer) sub(arg2 *Integer) T {
 	return &Integer{Value: i.Value - arg2.Value}
 }
 
-func (i *Integer) mul(arg2 Integer) T {
+func (i *Integer) mul(arg2 *Integer) T {
 	return &Integer{Value: i.Value * arg2.Value}
 }
 
-func (i *Integer) div(arg2 Integer) T {
+func (i *Integer) div(arg2 *Integer) T {
 	return &Integer{Value: i.Value / arg2.Value}
 }
 
-func (i *Integer) ge(arg2 Integer) T {
+func (i *Integer) ge(arg2 *Integer) T {
 	// TODO
 	return nil
 }
 
-func (i *Integer) le(arg2 Integer) T {
+func (i *Integer) le(arg2 *Integer) T {
 	// TODO
 	return nil
 }
 
-func (i *Integer) gt(arg2 Integer) T {
+func (i *Integer) gt(arg2 *Integer) T {
 	// TODO
 	return nil
 }
 
-func (i *Integer) lt(arg2 Integer) T {
+func (i *Integer) lt(arg2 *Integer) T {
 	// TODO
 	return nil
 }
