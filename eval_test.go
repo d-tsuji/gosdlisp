@@ -18,6 +18,11 @@ func TestEval_Evaluate(t *testing.T) {
 		{"mul", `(* 1 2)`, &Integer{2}},
 		{"div", `(/ 10 2)`, &Integer{5}},
 		{"if", `(> 2 1)`, NewSymbol("T")},
+		{"if", `(> 2 2)`, nil},
+		{"if", `(< 1 2)`, NewSymbol("T")},
+		{"if", `(< 2 2)`, nil},
+		{"if", `(>= 2 2)`, NewSymbol("T")},
+		{"if", `(<= 2 2)`, NewSymbol("T")},
 		{"defun", `(defun fact (n) (1))`, &Symbol{
 			"FACT", nil, &Cons{
 				Car: &Symbol{"LAMBDA", nil, nil},
