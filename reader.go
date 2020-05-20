@@ -78,6 +78,9 @@ func (r *Reader) makeNumber() T {
 		if r.ru == '(' || r.ru == ')' {
 			break
 		}
+		if unicode.IsSpace(r.ru) {
+			break
+		}
 		if !unicode.IsDigit(r.ru) {
 			r.indexOfLine--
 			return r.makeSymbolInternal(str)

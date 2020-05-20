@@ -20,10 +20,8 @@ func TestReader_read(t *testing.T) {
 				Function: &Add{},
 			},
 			Cdr: &Cons{
-				Car: &Symbol{
-					Name:     "1",
-					Value:    nil,
-					Function: nil,
+				Car: &Integer{
+					Value: 1,
 				},
 				Cdr: &Cons{
 					Car: &Integer{
