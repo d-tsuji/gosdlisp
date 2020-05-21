@@ -60,6 +60,7 @@ func TestEval_EvaluateFunc(t *testing.T) {
 		execCmd string
 		want    T
 	}{
+		{"defun", `(setq x 1)`, `(+ x 2)`, &Integer{3}},
 		{"defun", `(defun 1+ (n) (+ n 1))`, `(1+ 10)`, &Integer{11}},
 		{"defun", `(defun abs (n) (if (< n 0) (- 0 n) n))`, `(abs -1)`, &Integer{1}},
 		{"defun", `(defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))`, `(fact 10)`, &Integer{3628800}},

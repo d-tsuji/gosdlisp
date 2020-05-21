@@ -25,6 +25,7 @@ func registSystemFunctions() {
 	AddSymbolFunc(">", &Gt{})
 	AddSymbolFunc("<", &Lt{})
 	AddSymbolFunc("=", &NumberEqual{})
+	AddSymbolFunc("SETQ", &Setq{})
 	AddSymbolFunc("QUOTE", &Quote{})
 	AddSymbolFunc("DEFUN", &Defun{})
 	AddSymbolFunc("IF", &If{})
@@ -220,6 +221,23 @@ func (n *NumberEqual) funCall(arguments List) T {
 	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
 	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
 	return arg1.(*Integer).numberEqual(arg2.(*Integer))
+}
+
+type Setq struct{}
+
+func (*Setq) A() {}
+
+func (Setq) String() string {
+	return "#<SYSTEM-FUNCTION Setq>"
+}
+
+func (*Setq) funCall(arguments List) T {
+	e := NewEval()
+	arg1 := (arguments.(*Cons)).Car
+	arg2 := e.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
+	sym := arg1.(*Symbol)
+	sym.Value = e.Evaluate(arg2)
+	return sym
 }
 
 type Quote struct{}
