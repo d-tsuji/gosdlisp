@@ -30,6 +30,8 @@ func TestEval_Evaluate(t *testing.T) {
 		{"if", `(< 2 2)`, nil},
 		{"if", `(>= 2 2)`, NewSymbol("T")},
 		{"if", `(<= 2 2)`, NewSymbol("T")},
+		{"if", `(= 1 1)`, NewSymbol("T")},
+		{"if", `(= 1 2)`, nil},
 		{"cons", `(cons 1 '(2 3))`, &Cons{
 			&Integer{1}, &Cons{&Integer{2}, &Cons{&Integer{3}, nil}},
 		}},
