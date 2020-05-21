@@ -19,7 +19,7 @@ func main() {
 
 	defer func() {
 		if r := recover(); r != nil {
-			fmt.Fprintf(os.Stdout, "error occured: %v", r)
+			fmt.Fprintf(os.Stderr, "error occured: %v", r)
 		}
 	}()
 
