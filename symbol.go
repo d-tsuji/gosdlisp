@@ -14,6 +14,9 @@ func init() {
 	symbolQuit := &Symbol{Name: "QUIT"}
 	symbolTable["QUIT"] = symbolQuit
 
+	symbolExit := &Symbol{Name: "EXIT"}
+	symbolTable["EXIT"] = symbolExit
+
 	// Initialization of system functions
 	registSystemFunctions()
 }
