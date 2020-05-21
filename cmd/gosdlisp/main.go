@@ -13,7 +13,7 @@ func main() {
 	fmt.Fprintln(os.Stdout, "Welcome to GoSDLisp!")
 	fmt.Fprintln(os.Stdout, "> Copyright (C) Tsuji Daishiro 2020.")
 	fmt.Fprintln(os.Stdout, "> Type quit and hit Enter for leaving GoSDLisp.")
-	fmt.Fprintln(os.Stdout, "> ")
+	fmt.Fprint(os.Stdout, "> ")
 	scanner := bufio.NewScanner(os.Stdin)
 	eval := gosdlisp.NewEval()
 

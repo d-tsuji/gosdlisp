@@ -35,11 +35,8 @@ func TestEval_Evaluate(t *testing.T) {
 		}},
 		{"defun", `(defun fact (n) (1))`, &Symbol{
 			"FACT", nil, &Cons{
-				Car: &Symbol{"LAMBDA", nil, nil},
-				Cdr: &Cons{
-					&Cons{&Symbol{"N", nil, nil}, nil},
-					&Cons{&Cons{&Integer{1}, nil}, nil},
-				},
+				Car: &Symbol{Name: "LAMBDA"},
+				Cdr: &Cons{&Cons{Car: &Symbol{Name: "N"}}, &Cons{Car: &Cons{Car: &Integer{1}}}},
 			},
 		}},
 	}

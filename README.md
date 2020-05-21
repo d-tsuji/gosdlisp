@@ -25,7 +25,7 @@ Mini lisp interpreter written in Go. It is implemented with reference to the [d-
 ## Usage
 
 ```
-$ go run cmd/gosdlisp/main.go
+$ go run github.com/d-tsuji/gosdlisp/cmd/gosdlisp
 ```
 
 ## Some examples
