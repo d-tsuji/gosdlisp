@@ -78,3 +78,27 @@ func TestEval_EvaluateFunc(t *testing.T) {
 		})
 	}
 }
+
+func TestEval_EvaluateValue(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{"cons", `(cons 1 2)`, `(1 . 2)`},
+		{"cons", `(cons 3 (cons 1 2))`, `(3 1 . 2)`},
+		{"quote", `(quote (+ 1 2 3))`, `(+ 1 2 3)`},
+		{"quote", `'(+ 1 2 3)`, `(+ 1 2 3)`},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := NewEval()
+			r := NewReader(strings.NewReader(tt.input))
+			sexp := r.Read()
+			got := e.Evaluate(sexp)
+			if diff := cmp.Diff(got.String(), tt.want); diff != "" {
+				t.Errorf("Evaluate() differs: (-got +want)\n%s", diff)
+			}
+		})
+	}
+}
