@@ -14,8 +14,8 @@ Mini lisp interpreter written in Go. It is implemented with reference to the [d-
     - `cons`
     - `eq`
     - `if` 
-    - Arithmetic operations(`+`, `-`, `*`, `/`)
-    - comparative operation(`>`, `<`, `>=`, `<=`, `=`)
+    - arithmetic operations (`+`, `-`, `*`, `/`)
+    - comparative operation (`>`, `<`, `>=`, `<=`, `=`)
 - Special
     - `symbol-function`
     - `quote` or `'`
