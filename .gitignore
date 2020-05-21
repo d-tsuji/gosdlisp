@@ -17,9 +17,6 @@
 # GoLand
 .idea/
 
-# Executable Binary
-gosdlisp
-
 # Go test coverage
 c.out
 coverage.html

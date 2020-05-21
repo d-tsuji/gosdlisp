@@ -6,6 +6,28 @@ Mini Go Lisp
 
 Mini lisp interpreter written in Go. It is implemented with reference to the [d-tsuji/SDLisp](https://github.com/d-tsuji/SDLisp) repository written in Java.
 
+## Support
+
+- System Functions
+    - `car`
+    - `cdr`
+    - `cons`
+    - `eq`
+    - `if` 
+    - Arithmetic operations(`+`, `-`, `*`, `/`)
+    - comparative operation(`>`, `<`, `>=`, `<=`, `=`)
+- Special
+    - `symbol-function`
+    - `quote` or `'`
+    - `setq`
+    - `defun`
+
+## Usage
+
+```
+$ go run cmd/gosdlisp/main.go
+```
+
 ## Some examples
 
 ```lisp
@@ -45,3 +67,5 @@ FIB
 > (fib 11)
 89
 ```
+
+And see [eval_test.go](https://github.com/d-tsuji/gosdlisp/blob/master/eval_test.go) for other examples of how it works.
