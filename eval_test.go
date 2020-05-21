@@ -55,60 +55,36 @@ func TestEval_Evaluate(t *testing.T) {
 	}
 }
 
-func TestEval_EvaluateFunc(t *testing.T) {
-	tests := []struct {
-		name    string
-		defun   string
-		execCmd string
-		want    T
-	}{
-		{"setq", `(setq x 1)`, `(+ x 2)`, &Integer{3}},
-		{"symbol-function", `(defun x (n) (+ n 2))`, `(symbol-function 'x)`, &Cons{
-			&Symbol{"LAMBDA", nil, nil},
-			&Cons{
-				&Cons{Car: &Symbol{"N", nil, nil}},
-				&Cons{Car: &Cons{&Symbol{"+", nil, &Add{}}, &Cons{&Symbol{Name: "N"}, &Cons{Car: &Integer{2}}}}},
-			},
-		}},
-		{"defun", `(defun zerop (n) (= n 0))`, `(zerop 0)`, NewSymbol("T")},
-		{"defun", `(defun 1+ (n) (+ n 1))`, `(1+ 10)`, &Integer{11}},
-		{"defun", `(defun abs (n) (if (< n 0) (- 0 n) n))`, `(abs -1)`, &Integer{1}},
-		{"defun", `(defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))`, `(fact 10)`, &Integer{3628800}},
-		{"defun", `(defun fib (n) (if (<= n 1) n (+ (fib (- n 1)) (fib (- n 2)))))`, `(fib 11)`, &Integer{89}},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			e := NewEval()
-			r := NewReader(strings.NewReader(tt.defun))
-			e.Evaluate(r.Read())
-
-			got := e.Evaluate(NewReader(strings.NewReader(tt.execCmd)).Read())
-			if diff := cmp.Diff(got, tt.want); diff != "" {
-				t.Errorf("Evaluate() differs: (-got +want)\n%s", diff)
-			}
-		})
-	}
-}
-
 func TestEval_EvaluateValue(t *testing.T) {
 	tests := []struct {
-		name  string
-		input string
-		want  string
+		name     string
+		firstCmd string
+		nextCmd  string
+		want     string
 	}{
-		{"car", `(car '(a b c))`, `A`},
-		{"car", `(cdr '(a b c))`, `(B C)`},
-		{"cons", `(cons 1 2)`, `(1 . 2)`},
-		{"cons", `(cons 3 (cons 1 2))`, `(3 1 . 2)`},
-		{"quote", `(quote (+ 1 2 3))`, `(+ 1 2 3)`},
-		{"quote", `'(+ 1 2 3)`, `(+ 1 2 3)`},
+		{"car", `(car '(a b c))`, "", `A`},
+		{"car", `(cdr '(a b c))`, "", `(B C)`},
+		{"cons", `(cons 1 2)`, "", `(1 . 2)`},
+		{"cons", `(cons 3 (cons 1 2))`, "", `(3 1 . 2)`},
+		{"quote", `(quote (+ 1 2 3))`, "", `(+ 1 2 3)`},
+		{"quote", `'(+ 1 2 3)`, "", `(+ 1 2 3)`},
+		{"setq", `(setq x 1)`, `(+ x 2)`, "3"},
+		{"symbol-function", `(defun x (n) (+ n 2))`, `(symbol-function 'x)`, `(LAMBDA (N) (+ N 2))`},
+		{"defun", `(defun zerop (n) (= n 0))`, `(zerop 0)`, "T"},
+		{"defun", `(defun 1+ (n) (+ n 1))`, `(1+ 10)`, "11"},
+		{"defun", `(defun abs (n) (if (< n 0) (- 0 n) n))`, `(abs -1)`, "1"},
+		{"defun", `(defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))`, `(fact 10)`, "3628800"},
+		{"defun", `(defun fib (n) (if (<= n 1) n (+ (fib (- n 1)) (fib (- n 2)))))`, `(fib 11)`, "89"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			e := NewEval()
-			r := NewReader(strings.NewReader(tt.input))
+			r := NewReader(strings.NewReader(tt.firstCmd))
 			sexp := r.Read()
 			got := e.Evaluate(sexp)
+			if tt.nextCmd != "" {
+				got = e.Evaluate(NewReader(strings.NewReader(tt.nextCmd)).Read())
+			}
 			if diff := cmp.Diff(got.String(), tt.want); diff != "" {
 				t.Errorf("Evaluate() differs: (-got +want)\n%s", diff)
 			}
