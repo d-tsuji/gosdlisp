@@ -48,3 +48,29 @@ func TestEval_Evaluate(t *testing.T) {
 		})
 	}
 }
+
+func TestEval_EvaluateFunc(t *testing.T) {
+	tests := []struct {
+		name    string
+		defun   string
+		execCmd string
+		want    T
+	}{
+		{"defun", `(defun 1+ (n) (+ n 1))`, `(1+ 10)`, &Integer{11}},
+		{"defun", `(defun abs (n) (if (< n 0) (- 0 n) n))`, `(abs -1)`, &Integer{1}},
+		{"defun", `(defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))`, `(fact 10)`, &Integer{3628800}},
+		{"defun", `(defun fib (n) (if (<= n 1) n (+ (fib (- n 1)) (fib (- n 2)))))`, `(fib 11)`, &Integer{89}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := NewEval()
+			r := NewReader(strings.NewReader(tt.defun))
+			e.Evaluate(r.Read())
+
+			got := e.Evaluate(NewReader(strings.NewReader(tt.execCmd)).Read())
+			if diff := cmp.Diff(got, tt.want); diff != "" {
+				t.Errorf("Evaluate() differs: (-got +want)\n%s", diff)
+			}
+		})
+	}
+}
