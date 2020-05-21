@@ -29,6 +29,7 @@ func registSystemFunctions() {
 	AddSymbolFunc("QUOTE", &Quote{})
 	AddSymbolFunc("DEFUN", &Defun{})
 	AddSymbolFunc("IF", &If{})
+	AddSymbolFunc("SYMBOL-FUNCTION", &SymbolFunction{})
 }
 
 type Car struct{}
@@ -291,4 +292,18 @@ func (i *If) funCall(arguments List) T {
 	} else {
 		return e.Evaluate(arg3)
 	}
+}
+
+type SymbolFunction struct{}
+
+func (*SymbolFunction) A() {}
+
+func (*SymbolFunction) String() string {
+	return "#<SYSTEM-FUNCTION If>"
+}
+
+func (*SymbolFunction) funCall(arguments List) T {
+	e := NewEval()
+	arg1 := e.Evaluate((arguments.(*Cons)).Car)
+	return (arg1.(*Symbol)).Function
 }

@@ -61,6 +61,19 @@ func TestEval_EvaluateFunc(t *testing.T) {
 		want    T
 	}{
 		{"setq", `(setq x 1)`, `(+ x 2)`, &Integer{3}},
+		{"symbol-function", `(defun x (n) (+ n 2))`, `(symbol-function 'x)`, &Cons{
+			&Symbol{"LAMBDA", nil, nil},
+			&Cons{
+				&Cons{&Symbol{"N", nil, nil}, nil},
+				&Cons{
+					&Cons{
+						&Symbol{"+", nil, &Add{}},
+						&Cons{&Symbol{Name: "N"}, &Cons{&Integer{2}, nil}},
+					},
+					nil,
+				},
+			},
+		}},
 		{"defun", `(defun 1+ (n) (+ n 1))`, `(1+ 10)`, &Integer{11}},
 		{"defun", `(defun abs (n) (if (< n 0) (- 0 n) n))`, `(abs -1)`, &Integer{1}},
 		{"defun", `(defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))`, `(fact 10)`, &Integer{3628800}},
