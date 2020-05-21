@@ -1,7 +1,6 @@
 package gosdlisp
 
 import (
-	"log"
 	"strings"
 )
 
@@ -49,11 +48,7 @@ func (c Cons) String() string {
 			break
 		} else {
 			str.WriteString(" ")
-			l, ok := list.Cdr.(*Cons)
-			if !ok {
-				log.Fatalf("cannot convert Cons: %v", list.Cdr)
-			}
-			list = l
+			list = list.Cdr.(*Cons)
 		}
 	}
 

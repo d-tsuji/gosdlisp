@@ -1,6 +1,8 @@
 package gosdlisp
 
-import "log"
+import (
+	"fmt"
+)
 
 var (
 	defaultMaxStackSize = 65536
@@ -24,7 +26,7 @@ func (e Eval) Evaluate(form T) T {
 	if ok {
 		symbolValue := f.Value
 		if symbolValue == nil {
-			log.Fatalf("Unbound Variable Error: %v", form)
+			panic(fmt.Sprintf("Unbound Variable Error: %v", form))
 		}
 		return symbolValue
 	}
@@ -41,11 +43,11 @@ func (e Eval) Evaluate(form T) T {
 	car := (form.(*Cons)).Car
 	_, ok = car.(*Symbol)
 	if !ok {
-		log.Fatalf("Not a Symbol: %v", car)
+		panic(fmt.Sprintf("Not a Symbol: %v", car))
 	}
 	fun := car.(*Symbol).Function
 	if fun == nil {
-		log.Fatalf("Undefined Function Error: %v", car)
+		panic(fmt.Sprintf("Undefined Function Error: %v", car))
 	}
 	switch fun.(type) {
 	case Function:
@@ -60,7 +62,7 @@ func (e Eval) Evaluate(form T) T {
 		}
 		return e.bindEvalBody(lambdaList.(*Cons), body, ((form.(*Cons)).Cdr).(*Cons))
 	default:
-		log.Fatalf("Not a Function: %v, type: %T", fun, fun)
+		panic(fmt.Sprintf("Not a Function: %v, type: %T", fun, fun))
 	}
 	return nil
 }

@@ -2,8 +2,8 @@ package gosdlisp
 
 import (
 	"bufio"
+	"fmt"
 	"io"
-	"log"
 	"strconv"
 	"strings"
 	"unicode"
@@ -32,7 +32,7 @@ func NewReader(in io.Reader) *Reader {
 func (r *Reader) Read() T {
 	line, _, err := r.br.ReadLine()
 	if err != nil {
-		log.Fatalf("cannot read line: %v", err)
+		panic(fmt.Sprintf("cannot read line: %v", err))
 	}
 	r.lineLength = utf8.RuneCountInString(string(line))
 	r.line = []rune(string(line) + `\0`)
@@ -89,7 +89,7 @@ func (r *Reader) makeNumber() T {
 	}
 	value, err := strconv.Atoi(str.String())
 	if err != nil {
-		log.Fatalf("cannot convert int: %v", err)
+		panic(fmt.Sprintf("cannot convert int: %v", err))
 	}
 	return NewInteger(value)
 }
@@ -159,7 +159,7 @@ func (r *Reader) makeList() T {
 		list.Cdr = NewCons(nil, nil)
 		l, ok := list.Cdr.(*Cons)
 		if !ok {
-			log.Fatalf("cannot convert Cons: %v", list.Cdr)
+			panic(fmt.Sprintf("cannot convert Cons: %v", list.Cdr))
 		}
 		list = l
 	}
@@ -175,7 +175,7 @@ func (r *Reader) makeQuote() T {
 	list.Cdr = NewCons(nil, nil)
 	l, ok := list.Cdr.(*Cons)
 	if !ok {
-		log.Fatalf("cannot convert Cons: %v", list.Cdr)
+		panic(fmt.Sprintf("cannot convert Cons: %v", list.Cdr))
 	}
 	list = l
 	r.getRune()
