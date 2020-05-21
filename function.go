@@ -1,5 +1,7 @@
 package gosdlisp
 
+import "reflect"
+
 type Function interface {
 	Atom
 	funCall(arguments List) T
@@ -76,6 +78,12 @@ func (c Eq) String() string {
 }
 
 func (c *Eq) funCall(arguments List) T {
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
+	if reflect.DeepEqual(arg1, arg2) {
+		return NewSymbol("T")
+	}
 	return nil
 }
 
