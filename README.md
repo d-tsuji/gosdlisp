@@ -68,4 +68,4 @@ FIB
 89
 ```
 
-And see [eval_test.go](https://github.com/d-tsuji/gosdlisp/blob/master/eval_test.go) for other examples of how it works.
+See [eval_test.go](https://github.com/d-tsuji/gosdlisp/blob/master/eval_test.go) for other examples of how it works.
