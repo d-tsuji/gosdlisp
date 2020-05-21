@@ -17,6 +17,12 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	eval := gosdlisp.NewEval()
 
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Fprintf(os.Stdout, "error occured: %v", r)
+		}
+	}()
+
 	for scanner.Scan() {
 		fmt.Fprint(os.Stdout, "> ")
 		line := scanner.Text()
@@ -25,7 +31,7 @@ func main() {
 		}
 		r := gosdlisp.NewReader(strings.NewReader(line))
 		sexp := r.Read()
-		if sexp == gosdlisp.NewSymbol("QUIT") {
+		if sexp == gosdlisp.NewSymbol("QUIT") || sexp == gosdlisp.NewSymbol("EXIT") {
 			break
 		}
 		fmt.Fprintln(os.Stdout, eval.Evaluate(sexp))
