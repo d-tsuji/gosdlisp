@@ -13,6 +13,9 @@ func TestEval_Evaluate(t *testing.T) {
 		input string
 		want  T
 	}{
+		{"car", `(car '(a b c))`, &Symbol{Name: "A"}},
+		{"car", `(cdr '(a b c))`, &Cons{Car: &Symbol{Name: "B"}, Cdr: &Cons{Car: &Symbol{Name: "C"}}}},
+		{"add", `(+ 1 2)`, &Integer{3}},
 		{"add", `(+ 1 2)`, &Integer{3}},
 		{"sub", `(- 1 2)`, &Integer{-1}},
 		{"mul", `(* 1 2)`, &Integer{2}},
@@ -29,7 +32,7 @@ func TestEval_Evaluate(t *testing.T) {
 		{"if", `(<= 2 2)`, NewSymbol("T")},
 		{"cons", `(cons 1 '(2 3))`, &Cons{
 			&Integer{1}, &Cons{&Integer{2}, &Cons{&Integer{3}, nil}},
-		}}, // (1 2 3)
+		}},
 		{"defun", `(defun fact (n) (1))`, &Symbol{
 			"FACT", nil, &Cons{
 				Car: &Symbol{"LAMBDA", nil, nil},
@@ -99,6 +102,8 @@ func TestEval_EvaluateValue(t *testing.T) {
 		input string
 		want  string
 	}{
+		{"car", `(car '(a b c))`, `A`},
+		{"car", `(cdr '(a b c))`, `(B C)`},
 		{"cons", `(cons 1 2)`, `(1 . 2)`},
 		{"cons", `(cons 3 (cons 1 2))`, `(3 1 . 2)`},
 		{"quote", `(quote (+ 1 2 3))`, `(+ 1 2 3)`},

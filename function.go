@@ -39,6 +39,11 @@ func (c Car) String() string {
 }
 
 func (c *Car) funCall(arguments List) T {
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	if arg1 != nil {
+		return (arg1.(*Cons)).Car
+	}
 	return nil
 }
 
@@ -53,6 +58,11 @@ func (c Cdr) String() string {
 }
 
 func (c *Cdr) funCall(arguments List) T {
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	if arg1 != nil {
+		return (arg1.(*Cons)).Cdr
+	}
 	return nil
 }
 
