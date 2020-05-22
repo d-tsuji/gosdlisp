@@ -20,6 +20,7 @@ func TestEval_Evaluate(t *testing.T) {
 		{"sub", `(- 1 2)`, &Integer{-1}},
 		{"mul", `(* 1 2)`, &Integer{2}},
 		{"div", `(/ 10 2)`, &Integer{5}},
+		{"mod", `(mod 10 3)`, &Integer{1}},
 		{"eq", `(eq 'a 'a)`, NewSymbol("T")},
 		{"eq", `(eq 'a 'b)`, nil},
 		{"eq", `(eq 1 1)`, NewSymbol("T")},
@@ -73,6 +74,7 @@ func TestEval_EvaluateValue(t *testing.T) {
 		{"defun", `(defun zerop (n) (= n 0))`, `(zerop 0)`, "T"},
 		{"defun", `(defun 1+ (n) (+ n 1))`, `(1+ 10)`, "11"},
 		{"defun", `(defun abs (n) (if (< n 0) (- 0 n) n))`, `(abs -1)`, "1"},
+		{"defun", `(defun gcd (m n) (if (= (mod m n) 0) n (gcd n (mod m n))))`, `(gcd 12 18)`, "6"},
 		{"defun", `(defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))`, `(fact 10)`, "3628800"},
 		{"defun", `(defun fib (n) (if (<= n 1) n (+ (fib (- n 1)) (fib (- n 2)))))`, `(fib 11)`, "89"},
 	}

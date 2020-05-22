@@ -32,6 +32,10 @@ func (i *Integer) div(arg2 *Integer) T {
 	return &Integer{Value: i.Value / arg2.Value}
 }
 
+func (i *Integer) mod(arg2 *Integer) T {
+	return &Integer{Value: i.Value % arg2.Value}
+}
+
 func (i *Integer) ge(arg2 *Integer) T {
 	if i.Value >= arg2.Value {
 		return NewSymbol("T")

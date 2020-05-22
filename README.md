@@ -55,6 +55,13 @@ ABS
 ```
 
 ```lisp
+> (defun gcd (m n) (if (= (mod m n) 0) n (gcd n (mod m n))))
+GCD
+> (gcd 12 18)
+6
+```
+
+```lisp
 > (defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))
 FACT
 > (fact 10)

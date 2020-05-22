@@ -20,6 +20,7 @@ func registSystemFunctions() {
 	regist("-", &Sub{})
 	regist("*", &Mul{})
 	regist("/", &Div{})
+	regist("MOD", &Mod{})
 	regist(">=", &Ge{})
 	regist("<=", &Le{})
 	regist(">", &Gt{})
@@ -157,6 +158,21 @@ func (d *Div) funCall(arguments List) T {
 	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
 	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
 	return arg1.(*Integer).div(arg2.(*Integer))
+}
+
+type Mod struct{}
+
+func (*Mod) A() {}
+
+func (Mod) String() string {
+	return "#<SYSTEM-FUNCTION Mod>"
+}
+
+func (*Mod) funCall(arguments List) T {
+	eval := NewEval()
+	arg1 := eval.Evaluate((arguments.(*Cons)).Car)
+	arg2 := eval.Evaluate(((arguments.(*Cons)).Cdr).(*Cons).Car)
+	return arg1.(*Integer).mod(arg2.(*Integer))
 }
 
 type Ge struct{}
