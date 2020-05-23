@@ -16,7 +16,6 @@ func TestEval_Evaluate(t *testing.T) {
 		{"car", `(car '(a b c))`, &Symbol{Name: "A"}},
 		{"cdr", `(cdr '(a b c))`, &Cons{Car: &Symbol{Name: "B"}, Cdr: &Cons{Car: &Symbol{Name: "C"}}}},
 		{"add", `(+ 1 2)`, &Integer{3}},
-		{"add", `(+ 1 2)`, &Integer{3}},
 		{"sub", `(- 1 2)`, &Integer{-1}},
 		{"mul", `(* 1 2)`, &Integer{2}},
 		{"div", `(/ 10 2)`, &Integer{5}},
