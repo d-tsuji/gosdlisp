@@ -18,15 +18,7 @@ type Reader struct {
 	br          *bufio.Reader
 }
 
-func NewReader(in io.Reader) *Reader {
-	return &Reader{
-		ru:          0,
-		line:        nil,
-		indexOfLine: 0,
-		lineLength:  -1,
-		br:          bufio.NewReader(in),
-	}
-}
+func NewReader(in io.Reader) *Reader { return &Reader{br: bufio.NewReader(in)} }
 
 // read is an S-expression reader.
 func (r *Reader) Read() T {
