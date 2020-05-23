@@ -4,31 +4,20 @@ import (
 	"strings"
 )
 
-type T interface {
-	String() string
-}
+type T interface{ String() string }
 
-type Number interface {
-	Atom
-}
+type Number interface{ Atom }
 
-type List interface {
-	T
-}
+type List interface{ T }
 
 type Atom interface {
 	T
 	A()
 }
 
-type Cons struct {
-	Car T
-	Cdr T
-}
+type Cons struct{ Car, Cdr T }
 
-func NewCons(car, cdr T) *Cons {
-	return &Cons{car, cdr}
-}
+func NewCons(car, cdr T) *Cons { return &Cons{car, cdr} }
 
 func (c Cons) String() string {
 	var str strings.Builder
