@@ -57,37 +57,33 @@ func TestEval_Evaluate(t *testing.T) {
 
 func TestEval_EvaluateValue(t *testing.T) {
 	tests := []struct {
-		name     string
-		firstCmd string
-		nextCmd  string
-		want     string
+		name  string
+		cmds  []string
+		wants []string
 	}{
-		{"car", `(car '(a b c))`, "", `A`},
-		{"car", `(cdr '(a b c))`, "", `(B C)`},
-		{"cons", `(cons 1 2)`, "", `(1 . 2)`},
-		{"cons", `(cons 3 (cons 1 2))`, "", `(3 1 . 2)`},
-		{"quote", `(quote (+ 1 2 3))`, "", `(+ 1 2 3)`},
-		{"quote", `'(+ 1 2 3)`, "", `(+ 1 2 3)`},
-		{"setq", `(setq x 1)`, `(+ x 2)`, "3"},
-		{"symbol-function", `(defun x (n) (+ n 2))`, `(symbol-function 'x)`, `(LAMBDA (N) (+ N 2))`},
-		{"defun", `(defun zerop (n) (= n 0))`, `(zerop 0)`, "T"},
-		{"defun", `(defun 1+ (n) (+ n 1))`, `(1+ 10)`, "11"},
-		{"defun", `(defun abs (n) (if (< n 0) (- 0 n) n))`, `(abs -1)`, "1"},
-		{"defun", `(defun gcd (m n) (if (= (mod m n) 0) n (gcd n (mod m n))))`, `(gcd 12 18)`, "6"},
-		{"defun", `(defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))`, `(fact 10)`, "3628800"},
-		{"defun", `(defun fib (n) (if (<= n 1) n (+ (fib (- n 1)) (fib (- n 2)))))`, `(fib 11)`, "89"},
+		{"car", []string{`(car '(a b c))`}, []string{`A`}},
+		{"car", []string{`(cdr '(a b c))`}, []string{`(B C)`}},
+		{"cons", []string{`(cons 1 2)`}, []string{`(1 . 2)`}},
+		{"cons", []string{`(cons 3 (cons 1 2))`}, []string{`(3 1 . 2)`}},
+		{"quote", []string{`(quote (+ 1 2 3))`}, []string{`(+ 1 2 3)`}},
+		{"quote", []string{`'(+ 1 2 3)`}, []string{`(+ 1 2 3)`}},
+		{"setq", []string{`(setq x 1)`, `(+ x 2)`}, []string{"X", "3"}},
+		{"symbol-function", []string{`(defun x (n) (+ n 2))`, `(symbol-function 'x)`}, []string{"X", `(LAMBDA (N) (+ N 2))`}},
+		{"defun", []string{`(defun zerop (n) (= n 0))`, `(zerop 0)`}, []string{"ZEROP", "T"}},
+		{"defun", []string{`(defun 1+ (n) (+ n 1))`, `(1+ 10)`}, []string{"1+", "11"}},
+		{"defun", []string{`(defun abs (n) (if (< n 0) (- 0 n) n))`, `(abs -1)`}, []string{"ABS", "1"}},
+		{"defun", []string{`(defun gcd (m n) (if (= (mod m n) 0) n (gcd n (mod m n))))`, `(gcd 12 18)`}, []string{"GCD", "6"}},
+		{"defun", []string{`(defun fact (n) (if (< n 1) 1 (* n (fact (- n 1)))))`, `(fact 10)`}, []string{"FACT", "3628800"}},
+		{"defun", []string{`(defun fib (n) (if (<= n 1) n (+ (fib (- n 1)) (fib (- n 2)))))`, `(fib 11)`}, []string{"FIB", "89"}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			e := NewEval()
-			r := NewReader(strings.NewReader(tt.firstCmd))
-			sexp := r.Read()
-			got := e.Evaluate(sexp)
-			if tt.nextCmd != "" {
-				got = e.Evaluate(NewReader(strings.NewReader(tt.nextCmd)).Read())
-			}
-			if diff := cmp.Diff(got.String(), tt.want); diff != "" {
-				t.Errorf("Evaluate() differs: (-got +want)\n%s", diff)
+			for i := 0; i < len(tt.cmds); i++ {
+				got := e.Evaluate(NewReader(strings.NewReader(tt.cmds[i])).Read())
+				if diff := cmp.Diff(got.String(), tt.wants[i]); diff != "" {
+					t.Errorf("Evaluate() differs cmds[%d]: (-got +want)\n%s", i, diff)
+				}
 			}
 		})
 	}
