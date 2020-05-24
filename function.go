@@ -35,11 +35,11 @@ func registSystemFunctions() {
 
 type Car struct{}
 
-func (c Car) String() string {
+func (*Car) String() string {
 	return "#<SYSTEM-FUNCTION Car>"
 }
 
-func (c *Car) funCall(arguments List) (T, error) {
+func (*Car) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -51,17 +51,17 @@ func (c *Car) funCall(arguments List) (T, error) {
 	return nil, nil
 }
 
-func (c *Car) A() {}
+func (*Car) A() {}
 
 type Cdr struct{}
 
-func (c *Cdr) A() {}
+func (*Cdr) A() {}
 
-func (c Cdr) String() string {
+func (*Cdr) String() string {
 	return "#<SYSTEM-FUNCTION Cdr>"
 }
 
-func (c *Cdr) funCall(arguments List) (T, error) {
+func (*Cdr) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -75,13 +75,13 @@ func (c *Cdr) funCall(arguments List) (T, error) {
 
 type FunCons struct{}
 
-func (c *FunCons) A() {}
+func (*FunCons) A() {}
 
-func (c FunCons) String() string {
+func (*FunCons) String() string {
 	return "#<SYSTEM-FUNCTION FunCons>"
 }
 
-func (c *FunCons) funCall(arguments List) (T, error) {
+func (*FunCons) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -96,13 +96,13 @@ func (c *FunCons) funCall(arguments List) (T, error) {
 
 type Eq struct{}
 
-func (c *Eq) A() {}
+func (*Eq) A() {}
 
-func (c Eq) String() string {
+func (*Eq) String() string {
 	return "#<SYSTEM-FUNCTION Eq>"
 }
 
-func (c *Eq) funCall(arguments List) (T, error) {
+func (*Eq) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -120,13 +120,13 @@ func (c *Eq) funCall(arguments List) (T, error) {
 
 type Add struct{}
 
-func (a *Add) A() {}
+func (*Add) A() {}
 
-func (a Add) String() string {
+func (*Add) String() string {
 	return "#<SYSTEM-FUNCTION Add>"
 }
 
-func (a *Add) funCall(arguments List) (T, error) {
+func (*Add) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -141,13 +141,13 @@ func (a *Add) funCall(arguments List) (T, error) {
 
 type Sub struct{}
 
-func (s *Sub) A() {}
+func (*Sub) A() {}
 
-func (s Sub) String() string {
+func (*Sub) String() string {
 	return "#<SYSTEM-FUNCTION Sub>"
 }
 
-func (s *Sub) funCall(arguments List) (T, error) {
+func (*Sub) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -162,13 +162,13 @@ func (s *Sub) funCall(arguments List) (T, error) {
 
 type Mul struct{}
 
-func (m *Mul) A() {}
+func (*Mul) A() {}
 
-func (m Mul) String() string {
+func (*Mul) String() string {
 	return "#<SYSTEM-FUNCTION Mul>"
 }
 
-func (m *Mul) funCall(arguments List) (T, error) {
+func (*Mul) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -183,13 +183,13 @@ func (m *Mul) funCall(arguments List) (T, error) {
 
 type Div struct{}
 
-func (d *Div) A() {}
+func (*Div) A() {}
 
-func (d Div) String() string {
+func (*Div) String() string {
 	return "#<SYSTEM-FUNCTION Div>"
 }
 
-func (d *Div) funCall(arguments List) (T, error) {
+func (*Div) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -206,7 +206,7 @@ type Mod struct{}
 
 func (*Mod) A() {}
 
-func (Mod) String() string {
+func (*Mod) String() string {
 	return "#<SYSTEM-FUNCTION Mod>"
 }
 
@@ -225,13 +225,13 @@ func (*Mod) funCall(arguments List) (T, error) {
 
 type Ge struct{}
 
-func (g *Ge) A() {}
+func (*Ge) A() {}
 
-func (g Ge) String() string {
+func (*Ge) String() string {
 	return "#<SYSTEM-FUNCTION Ge>"
 }
 
-func (g *Ge) funCall(arguments List) (T, error) {
+func (*Ge) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -246,13 +246,13 @@ func (g *Ge) funCall(arguments List) (T, error) {
 
 type Le struct{}
 
-func (l *Le) A() {}
+func (*Le) A() {}
 
-func (l Le) String() string {
+func (*Le) String() string {
 	return "#<SYSTEM-FUNCTION Le>"
 }
 
-func (l *Le) funCall(arguments List) (T, error) {
+func (*Le) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -267,13 +267,13 @@ func (l *Le) funCall(arguments List) (T, error) {
 
 type Gt struct{}
 
-func (g *Gt) A() {}
+func (*Gt) A() {}
 
-func (g Gt) String() string {
+func (*Gt) String() string {
 	return "#<SYSTEM-FUNCTION Gt>"
 }
 
-func (g *Gt) funCall(arguments List) (T, error) {
+func (*Gt) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -288,13 +288,13 @@ func (g *Gt) funCall(arguments List) (T, error) {
 
 type Lt struct{}
 
-func (l *Lt) A() {}
+func (*Lt) A() {}
 
-func (l Lt) String() string {
+func (*Lt) String() string {
 	return "#<SYSTEM-FUNCTION Lt>"
 }
 
-func (l *Lt) funCall(arguments List) (T, error) {
+func (*Lt) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -309,13 +309,13 @@ func (l *Lt) funCall(arguments List) (T, error) {
 
 type NumberEqual struct{}
 
-func (n *NumberEqual) A() {}
+func (*NumberEqual) A() {}
 
-func (n NumberEqual) String() string {
+func (*NumberEqual) String() string {
 	return "#<SYSTEM-FUNCTION NumberEqual>"
 }
 
-func (n *NumberEqual) funCall(arguments List) (T, error) {
+func (*NumberEqual) funCall(arguments List) (T, error) {
 	eval := NewEval()
 	arg1, err := eval.Evaluate((arguments.(*Cons)).Car)
 	if err != nil {
@@ -332,7 +332,7 @@ type Setq struct{}
 
 func (*Setq) A() {}
 
-func (Setq) String() string {
+func (*Setq) String() string {
 	return "#<SYSTEM-FUNCTION Setq>"
 }
 
@@ -355,7 +355,7 @@ type Quote struct{}
 
 func (*Quote) A() {}
 
-func (Quote) String() string {
+func (*Quote) String() string {
 	return "#<SYSTEM-FUNCTION Quote>"
 }
 
@@ -365,13 +365,13 @@ func (*Quote) funCall(arguments List) (T, error) {
 
 type Defun struct{}
 
-func (d *Defun) A() {}
+func (*Defun) A() {}
 
-func (d *Defun) String() string {
+func (*Defun) String() string {
 	return "#<SYSTEM-FUNCTION Defun>"
 }
 
-func (d *Defun) funCall(arguments List) (T, error) {
+func (*Defun) funCall(arguments List) (T, error) {
 	arg1 := (arguments.(*Cons)).Car
 	args := (arguments.(*Cons)).Cdr
 	fun := arg1.(*Symbol)
@@ -382,13 +382,13 @@ func (d *Defun) funCall(arguments List) (T, error) {
 
 type If struct{}
 
-func (i *If) A() {}
+func (*If) A() {}
 
-func (i *If) String() string {
+func (*If) String() string {
 	return "#<SYSTEM-FUNCTION If>"
 }
 
-func (i *If) funCall(arguments List) (T, error) {
+func (*If) funCall(arguments List) (T, error) {
 	arg1 := (arguments.(*Cons)).Car
 	args := (arguments.(*Cons)).Cdr
 	arg2 := (args.(*Cons)).Car
