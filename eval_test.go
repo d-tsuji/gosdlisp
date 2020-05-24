@@ -46,8 +46,14 @@ func TestEval_Evaluate(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			e := NewEval()
 			r := NewReader(strings.NewReader(tt.input))
-			sexp, _ := r.Read()
-			got := e.Evaluate(sexp)
+			sexp, err := r.Read()
+			if err != nil {
+				t.Errorf("read: %v", err)
+			}
+			got, err := e.Evaluate(sexp)
+			if err != nil {
+				t.Errorf("evaluate: %v", err)
+			}
 			if diff := cmp.Diff(got, tt.want); diff != "" {
 				t.Errorf("Evaluate() differs: (-got +want)\n%s", diff)
 			}
@@ -82,9 +88,12 @@ func TestEval_EvaluateValue(t *testing.T) {
 			for i := 0; i < len(tt.cmds); i++ {
 				r, err := NewReader(strings.NewReader(tt.cmds[i])).Read()
 				if err != nil {
-					t.Errorf("Fail to read: %v", err)
+					t.Errorf("read: %v", err)
 				}
-				got := e.Evaluate(r)
+				got, err := e.Evaluate(r)
+				if err != nil {
+					t.Errorf("evaluate: %v", err)
+				}
 				if diff := cmp.Diff(got.String(), tt.wants[i]); diff != "" {
 					t.Errorf("Evaluate() differs cmds[%d]: (-got +want)\n%s", i, diff)
 				}

@@ -38,7 +38,12 @@ func main() {
 		if sexp == gosdlisp.NewSymbol("QUIT") || sexp == gosdlisp.NewSymbol("EXIT") {
 			break
 		}
-		fmt.Fprintln(os.Stdout, eval.Evaluate(sexp))
+		v, err := eval.Evaluate(sexp)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "evaluate:", err)
+			continue
+		}
+		fmt.Fprintln(os.Stdout, v)
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
