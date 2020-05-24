@@ -17,12 +17,6 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	eval := gosdlisp.NewEval()
 
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Fprintf(os.Stderr, "error occured: %v", r)
-		}
-	}()
-
 	for scanner.Scan() {
 		fmt.Fprint(os.Stdout, "> ")
 		line := scanner.Text()
