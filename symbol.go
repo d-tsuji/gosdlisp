@@ -41,8 +41,8 @@ func AddSymbolFunc(name string, f Function) {
 	symbolTable[name] = s
 }
 
-func (s Symbol) String() string {
+func (s *Symbol) String() string {
 	return s.Name
 }
 
-func (s Symbol) A() {}
+func (s *Symbol) A() {}
