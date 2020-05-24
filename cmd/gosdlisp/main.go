@@ -30,7 +30,11 @@ func main() {
 			continue
 		}
 		r := gosdlisp.NewReader(strings.NewReader(line))
-		sexp := r.Read()
+		sexp, err := r.Read()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "read:", err)
+			continue
+		}
 		if sexp == gosdlisp.NewSymbol("QUIT") || sexp == gosdlisp.NewSymbol("EXIT") {
 			break
 		}

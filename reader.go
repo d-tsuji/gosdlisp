@@ -21,10 +21,10 @@ type Reader struct {
 func NewReader(in io.Reader) *Reader { return &Reader{br: bufio.NewReader(in)} }
 
 // read is an S-expression reader.
-func (r *Reader) Read() T {
+func (r *Reader) Read() (T, error) {
 	line, _, err := r.br.ReadLine()
 	if err != nil {
-		panic(fmt.Sprintf("cannot read line: %v", err))
+		return nil, fmt.Errorf("cannot read line: %v", err)
 	}
 	r.lineLength = utf8.RuneCountInString(string(line))
 	r.line = []rune(string(line) + `\0`)
@@ -40,7 +40,7 @@ func (r *Reader) getRune() {
 }
 
 // getSexp reads an S-expression.
-func (r *Reader) getSexp() T {
+func (r *Reader) getSexp() (T, error) {
 	for {
 		r.skipSpace()
 		switch r.ru {
@@ -60,7 +60,7 @@ func (r *Reader) getSexp() T {
 }
 
 // makeNumber reads the Number.
-func (r *Reader) makeNumber() T {
+func (r *Reader) makeNumber() (T, error) {
 	var str strings.Builder
 	if r.ru == '-' {
 		str.WriteRune('-')
@@ -75,34 +75,34 @@ func (r *Reader) makeNumber() T {
 		}
 		if !unicode.IsDigit(r.ru) {
 			r.indexOfLine--
-			return r.makeSymbolInternal(str.String())
+			return r.makeSymbolInternal(str.String()), nil
 		}
 		str.WriteRune(r.ru)
 	}
 	value, err := strconv.Atoi(str.String())
 	if err != nil {
-		panic(fmt.Sprintf("cannot convert int: %v", err))
+		return nil, fmt.Errorf("cannot convert int: %v", err)
 	}
-	return NewInteger(value)
+	return NewInteger(value), nil
 }
 
 // makeMinusNumber reads a negative number.
-func (r *Reader) makeMinusNumber() T {
+func (r *Reader) makeMinusNumber() (T, error) {
 	nru := r.line[r.indexOfLine]
 	if !unicode.IsDigit(nru) {
 		var str strings.Builder
 		str.WriteRune(r.ru)
-		return r.makeSymbolInternal(str.String())
+		return r.makeSymbolInternal(str.String()), nil
 	}
 	return r.makeNumber()
 }
 
 // makeSymbol reads a symbol.
-func (r *Reader) makeSymbol() T {
+func (r *Reader) makeSymbol() (T, error) {
 	r.ru = unicode.ToUpper(r.ru)
 	var str strings.Builder
 	str.WriteRune(r.ru)
-	return r.makeSymbolInternal(str.String())
+	return r.makeSymbolInternal(str.String()), nil
 }
 
 // makeSymbolInternal reads a symbol in the middle of a string.
@@ -123,56 +123,56 @@ func (r *Reader) makeSymbolInternal(str string) T {
 }
 
 // makeList reads the list.
-func (r *Reader) makeList() T {
+func (r *Reader) makeList() (T, error) {
 	r.getRune()
 	r.skipSpace()
 	if r.ru == ')' {
 		r.getRune()
-		return nil
+		return nil, nil
 	}
 	top := NewCons(nil, nil)
 	list := top
 	for {
-		list.Car = r.getSexp()
+		list.Car, _ = r.getSexp()
 		r.skipSpace()
 		if r.indexOfLine > r.lineLength {
-			return nil
+			return nil, nil
 		}
 		if r.ru == ')' {
 			break
 		}
 		if r.ru == '.' {
 			r.getRune()
-			list.Cdr = r.getSexp()
+			list.Cdr, _ = r.getSexp()
 			r.skipSpace()
 			r.getRune()
-			return top
+			return top, nil
 		}
 		list.Cdr = NewCons(nil, nil)
 		l, ok := list.Cdr.(*Cons)
 		if !ok {
-			panic(fmt.Sprintf("cannot convert Cons: %v", list.Cdr))
+			return nil, fmt.Errorf("cannot convert Cons: %v", list.Cdr)
 		}
 		list = l
 	}
 	r.getRune()
-	return top
+	return top, nil
 }
 
 // makeQuote reads the quote.
-func (r *Reader) makeQuote() T {
+func (r *Reader) makeQuote() (T, error) {
 	top := NewCons(nil, nil)
 	list := top
 	list.Car = NewSymbol("QUOTE")
 	list.Cdr = NewCons(nil, nil)
 	l, ok := list.Cdr.(*Cons)
 	if !ok {
-		panic(fmt.Sprintf("cannot convert Cons: %v", list.Cdr))
+		return nil, fmt.Errorf("cannot convert Cons: %v", list.Cdr)
 	}
 	list = l
 	r.getRune()
-	list.Car = r.getSexp()
-	return top
+	list.Car, _ = r.getSexp()
+	return top, nil
 }
 
 // SkipSpace skips whitespace.

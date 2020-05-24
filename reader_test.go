@@ -21,7 +21,7 @@ func TestReader_read(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			r := NewReader(strings.NewReader(tt.input))
-			got := r.Read()
+			got, _ := r.Read()
 			if diff := cmp.Diff(got, tt.want); diff != "" {
 				t.Errorf("read() differs: (-got +want)\n%s", diff)
 			}
