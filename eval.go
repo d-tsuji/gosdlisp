@@ -89,9 +89,7 @@ func (e Eval) bindEvalBody(lambda, body, form *Cons) (T, error) {
 	sp := oldStackP
 	for {
 		sym := (argList.Car).(*Symbol)
-		swap := sym.Value
-		sym.Value = e.stack[sp]
-		e.stack[sp] = swap
+		sym.Value, e.stack[sp] = e.stack[sp], sym.Value
 		sp++
 		if argList.Cdr == nil {
 			break
