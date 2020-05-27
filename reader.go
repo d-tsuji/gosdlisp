@@ -133,7 +133,11 @@ func (r *Reader) makeList() (T, error) {
 	top := NewCons(nil, nil)
 	list := top
 	for {
-		list.Car, _ = r.getSexp()
+		sexp, err := r.getSexp()
+		if err != nil {
+			return nil, err
+		}
+		list.Car = sexp
 		r.skipSpace()
 		if r.indexOfLine > r.lineLength {
 			return nil, nil
@@ -143,7 +147,11 @@ func (r *Reader) makeList() (T, error) {
 		}
 		if r.ru == '.' {
 			r.getRune()
-			list.Cdr, _ = r.getSexp()
+			sexp, err := r.getSexp()
+			if err != nil {
+				return nil, err
+			}
+			list.Cdr = sexp
 			r.skipSpace()
 			r.getRune()
 			return top, nil
